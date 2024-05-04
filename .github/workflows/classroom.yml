@@ -1,0 +1,169 @@
+name: Autograding Tests
+'on':
+- push
+- workflow_dispatch
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Test1
+      id: test1
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Test1
+        setup-command: make main
+        command: "./main"
+        input: level1.txt
+        expected-output: |-
+          Masukkan peta: Power terakhir pemain: 35 poin.
+          Pemain berhasil mengalahkan Boss!
+        comparison-method: contains
+        timeout: 2
+        max-score: 10
+    - name: Test2
+      id: test2
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Test2
+        setup-command: make main
+        command: "./main"
+        input: level3.txt
+        expected-output: |-
+          Masukkan peta: Power terakhir pemain: 162 poin.
+          Pemain berhasil mengalahkan Boss!
+        comparison-method: contains
+        timeout: 2
+        max-score: 10
+    - name: Test3
+      id: test3
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Test3
+        setup-command: make main
+        command: "./main"
+        input: level4.txt
+        expected-output: |-
+          Masukkan peta: Power terakhir pemain: 257 poin.
+          Pemain berhasil mengalahkan Boss!
+        comparison-method: contains
+        timeout: 2
+        max-score: 10
+    - name: Test4
+      id: test4
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Test4
+        setup-command: make main
+        command: "./main"
+        input: level5.txt
+        expected-output: |-
+          Masukkan peta: Power terakhir pemain: 30 poin.
+          Pemain tidak mungkin mengalahkan Boss, Perkuat Dirimu!
+        comparison-method: contains
+        timeout: 2
+        max-score: 10
+    - name: Test5
+      id: test5
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Test5
+        setup-command: make main
+        command: "./main"
+        input: level6.txt
+        expected-output: |-
+          Masukkan peta: Power terakhir pemain: 1008 poin.
+          Pemain berhasil mengalahkan Boss!
+        comparison-method: contains
+        timeout: 2
+        max-score: 10
+    - name: Test6
+      id: test6
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Test6
+        setup-command: make main
+        command: "./main"
+        input: level7.txt
+        expected-output: |-
+          Masukkan peta: Power terakhir pemain: 147 poin.
+          Pemain berhasil mengalahkan Boss!
+        comparison-method: contains
+        timeout: 2
+        max-score: 10
+    - name: Test7
+      id: test7
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Test7
+        setup-command: make main
+        command: "./main"
+        input: 'level2.txt '
+        expected-output: |-
+          Masukkan peta: Power terakhir pemain: 41 poin.
+          Pemain tidak mungkin mengalahkan Boss, Perkuat Dirimu!
+        comparison-method: contains
+        timeout: 2
+        max-score: 10
+    - name: Test8
+      id: test8
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Test8
+        setup-command: make main
+        command: "./main"
+        input: level8.txt
+        expected-output: |-
+          Masukkan peta: Power terakhir pemain: 17 poin.
+          Pemain berhasil mengalahkan Boss!
+        comparison-method: contains
+        timeout: 2
+        max-score: 10
+    - name: Test9
+      id: test9
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Test9
+        setup-command: make main
+        command: "./main"
+        input: level9.txt
+        expected-output: |-
+          Masukkan peta: Power terakhir pemain: 161 poin.
+          Pemain berhasil mengalahkan Boss!
+        comparison-method: contains
+        timeout: 2
+        max-score: 10
+    - name: Test10
+      id: test10
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Test10
+        setup-command: make main
+        command: "./main"
+        input: gaktaupusing.txt
+        expected-output: 'Masukkan peta: Level tidak ada!'
+        comparison-method: contains
+        timeout: 2
+        max-score: 10
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        TEST1_RESULTS: "${{steps.test1.outputs.result}}"
+        TEST2_RESULTS: "${{steps.test2.outputs.result}}"
+        TEST3_RESULTS: "${{steps.test3.outputs.result}}"
+        TEST4_RESULTS: "${{steps.test4.outputs.result}}"
+        TEST5_RESULTS: "${{steps.test5.outputs.result}}"
+        TEST6_RESULTS: "${{steps.test6.outputs.result}}"
+        TEST7_RESULTS: "${{steps.test7.outputs.result}}"
+        TEST8_RESULTS: "${{steps.test8.outputs.result}}"
+        TEST9_RESULTS: "${{steps.test9.outputs.result}}"
+        TEST10_RESULTS: "${{steps.test10.outputs.result}}"
+      with:
+        runners: test1,test2,test3,test4,test5,test6,test7,test8,test9,test10
